@@ -94,7 +94,7 @@ export class DefaultWatcher implements IWatcher {
         });
     }
 
-    public async watchAndGetFiles(dirPath: string, watchTimeMs: number, cb: (file: Buffer) => any): Promise<void> {
+    public async watchAndGetFiles(dirPath: string, watchTimeMs: number, cb: (file: Buffer, fileName: string) => any): Promise<void> {
         const dirName = path.basename(dirPath);
 
         this._makeDir(dirName);
@@ -114,7 +114,7 @@ export class DefaultWatcher implements IWatcher {
                         if (err) {
                             reject(err);
                         } else {
-                            cb(data);
+                            cb(data, changedFileName);
                         }
                     });
                 }
