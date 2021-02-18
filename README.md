@@ -191,9 +191,9 @@ camera.takePhoto('testPhotoName').then((photo) => {
 ```
 </details>
 
-#### timelapse(fileName: string, intervalMs: number, execTimeMs: number, cb: (image: Buffer) => any): Promise\<void\>;
-#### timelapse(intervalMs: number, execTimeMs: number, cb: (image: Buffer) => any): Promise\<void\>;
-Runs camera in timelapse mode. Passes taken image picture as Buffer object to the callback. 
+#### timelapse(fileName: string, intervalMs: number, execTimeMs: number, cb: (image: Buffer, savedFile: string) => any): Promise\<void\>;
+#### timelapse(intervalMs: number, execTimeMs: number, cb: (image: Buffer, savedFile: string) => any): Promise\<void\>;
+Runs camera in timelapse mode. Passes taken image picture as Buffer object and saved file name to the callback. 
 Raspistill options (passed into constructor or into setOptions method) are also applicable in this mode.
 
 Remember that raspberry camera has it's own limits of taking photos speed even in timelapse mode.
@@ -205,7 +205,7 @@ file naming rules and interval/total exec time params usage.
 <summary>Details</summary>
 
 ```typescript
-camera.timelapse(500, 3000, (image) => {
+camera.timelapse(500, 3000, (image, fileName) => {
     // got image from camera, do something
 }).then(() => {
     // timelapse ended
@@ -215,7 +215,7 @@ camera.timelapse(500, 3000, (image) => {
 ```
 or
 ```typescript
-camera.timelapse('image%04d', 500, 3000, (image) => {
+camera.timelapse('image%04d', 500, 3000, (image, fileName) => {
     // got image from camera, do something
 }).then(() => {
     // timelapse ended
@@ -235,7 +235,7 @@ rejected with RaspistillInterruptError if stop was completed.
 ```typescript
 const RaspistillInterruptError = require('node-raspistill').RaspistillInterruptError;
 
-raspistill.timelapse(1000, 30000, (image) => {
+raspistill.timelapse(1000, 30000, (image, fileName) => {
     console.log('got photo, trying to stop raspistill');
     raspistill.stop();
 })
